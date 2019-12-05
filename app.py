@@ -53,7 +53,11 @@ app.layout = html.Div(children=[
     html.H3(children='CE for wait'),
     html.Div(id='out-x-wait'),
     html.H2(children='Recommendation'),
-    html.Div(id='out-rec')
+    html.Div(id='out-rec'),
+    html.H3(children='Value of spores'),
+    html.Div(id='out-v-spores'),
+    html.H2(children='Recommendation on spores'),
+    html.Div(id='out-rec-spores')
 ])
 
 def get_u(x):
@@ -86,6 +90,8 @@ p_lo_acidity = 0.2
         Output(component_id='out-x-harvest', component_property='children'),
         Output(component_id='out-x-wait', component_property='children'),
         Output(component_id='out-rec', component_property='children'),
+        Output(component_id='out-v-spores', component_property='children'),
+        Output(component_id='out-rec-spores', component_property='children'),
     ],
     [
         Input(component_id='input_p_storm', component_property='value'),
@@ -97,12 +103,19 @@ def update(p_storm, p_mold, p_lo_acidity):
     u_wait_storm = p_mold * u_wait_storm_mold + (1 - p_mold) * u_wait_storm_no_mold
     u_wait_no_storm = p_lo_acidity * u_wait_no_storm_lo_acidity + (1 - p_lo_acidity) * u_wait_no_storm_nor_acidity
     u_wait = p_storm * u_wait_storm + (1 - p_storm) * u_wait_no_storm
-    x_wait = get_x(u_wait)
+    x_wait = round(get_x(u_wait))
     if x_harvest >= x_wait:
         rec = 'Mr. Jaeger should harvest'
     else:
         rec = 'Mr. Jaeger should wait'
-    return x_harvest, round(x_wait), rec
+    # spores
+    u_spores = p_storm * u_wait_storm_mold + (1 - p_storm) * u_wait_no_storm
+    x_spores = round(get_x(u_spores))
+    v_spores = x_spores - max(x_harvest, x_wait)
+    rec_spores = 'Mr. Jaeger should not buy the spores'
+    if v_spores > 10000:
+        rec_spores = 'Mr. Jaeger should buy the spores'
+    return x_harvest, x_wait, rec, v_spores, rec_spores
 
 if __name__ == '__main__':
     app.run_server(debug=True)
