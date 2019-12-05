@@ -18,6 +18,7 @@ app.layout = html.Div(children=[
         Decision Support Tool for Mr. Jaeger in the Freemark Abbey Winery case.
     '''),
 
+    html.H3(children='Probability of storm'),
     dcc.Slider(
         id='input_p_storm',
         min=0,
@@ -27,6 +28,7 @@ app.layout = html.Div(children=[
         value=2/3
     ),
 
+    html.H3(children='Probability of mold forming if there is a storm'),
     dcc.Slider(
         id='input_p_mold',
         min=0,
@@ -36,6 +38,7 @@ app.layout = html.Div(children=[
         value=0.4
     ),
 
+    html.H3(children='Probability of acidity dropping below 20%'),
     dcc.Slider(
         id='input_p_lo_acidity',
         min=0,
@@ -45,8 +48,11 @@ app.layout = html.Div(children=[
         value=0.2
     ),
 
+    html.H3(children='CE for harvest'),
     html.Div(id='out-x-harvest'),
+    html.H3(children='CE for wait'),
     html.Div(id='out-x-wait'),
+    html.H2(children='Recommendation'),
     html.Div(id='out-rec')
 ])
 
