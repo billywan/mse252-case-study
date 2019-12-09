@@ -74,7 +74,7 @@ app.layout = html.Div(
             style={"display": "flex", "justifyContent": "space-around"},
         ),
         html.Div([html.H2(children="Final Recommendation"), html.Div(id="out-rec")], style={"textAlign": "center"}),
-        html.Div([html.H3(children="Value of spores"), html.Div(id="out-v-spores")], style={"textAlign": "center"}),
+        html.Div([html.H3(children="Value of spores ($)"), html.Div(id="out-v-spores")], style={"textAlign": "center"}),
         html.Div([html.H3(children="Recommendation on spores"), html.Div(id="out-rec-spores")], style={"textAlign": "center"}),
     ],
     style={"fontSize": "24px"},
@@ -137,7 +137,7 @@ def update(p_storm, p_mold, p_lo_acidity):
     v_spores = x_spores - max(x_harvest, x_wait)
     rec_spores = "Mr. Jaeger should not buy the spores."
     if v_spores > 10000:
-        rec_spores = "Mr. Jaeger should buy the spores."
+        rec_spores = "Value of spores is greater than $10,000, so Mr. Jaeger should buy the spores."
     return x_harvest, x_wait, rec, v_spores, rec_spores
 
 
